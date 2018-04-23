@@ -1,0 +1,8 @@
+.idea/
+Include/
+Lib/
+Scripts/
+*.json
+*.cfg
+app/__pycache__
+app/db_repository

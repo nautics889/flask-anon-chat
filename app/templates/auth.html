@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>auth</h1>
+	<form method="POST" name="login">
+		{% for f in form %}
+		{{f}}
+		{% endfor %}
+		<input type="submit">
+	</form>
+</body>
+</html>
