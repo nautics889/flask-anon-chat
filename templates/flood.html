@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="panel panel-default">
+        <div id="panelBody" class="panel-body"></div>
+                <!--./panel-body-->
+    </div>
+	<div>
+		<textarea rows="1" id="chatText" name="chatText" placeholder="Type a message"></textarea>
+	</div>
+	<button id="send">Send</button>
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script>
+var interval = 4000; //4 seconds
+
+
+function sendMessage() {
+    $.ajax({
+        url: "{{ url_for('receiveMessage') }}", 
+        type: "POST", 
+        data: {
+        'chatText': $("#chatText").val(),
+        },
+        success: function() {
+            recvMessage(),
+            $("#chatText").val('');
+        }
+    });
+}
+
+function recvMessage() {
+    $.ajax({
+        url: "{{ url_for('sendMessage') }}",
+        type: "GET",
+        success: function(result) {
+            $("#panelBody").html(result);            
+        },
+        complete: function(result) {
+            setTimeout(recvMessage, interval);
+        }
+    });
+}
+
+$(document).ready(function() {
+    $("#chatText").keypress(function(e) {
+        if (e.keyCode == 13) {
+            $("#send").click();
+            console.log('qwerty')
+        }
+    });
+    $("button").click(sendMessage);
+    setTimeout(recvMessage, interval);
+});
+
+</script>
+
+</body>
+</html>
