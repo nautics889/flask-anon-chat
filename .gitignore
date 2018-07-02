@@ -1,0 +1,8 @@
+*/__pycache__/*
+*/.idea/*
+.idea/
+__pycache__/
+foobar.py
+temp.py
+temp.ui
+main.py
