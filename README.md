@@ -1,2 +1,2 @@
 # tutorials
-Switch to another tree
+Switch to another branch
